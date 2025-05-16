@@ -2,26 +2,31 @@
 	static private $data = [];
 	static private $errorControllerAction = 'ErrorController#error404';
 
-	static function add ($url, $controller_action) {
+	static function root ($controller_action) {
+		self::add('GET', 'root', $controller_action);
+	}
+
+	static function add ($method, $url, $controller_action) {
 		list($controller_name, $action_name) = explode('#', $controller_action);
 		$controller_name = ucfirst($controller_name) . "Controller";
 		$controller_action = implode('#_', [$controller_name, $action_name]);
 
+		$url = $method.':'.$url;
 		self::verifyDuplicates($url, $controller_action);
 		self::$data[$url] = $controller_action;
 	}
 
 	static function resources ($resource_name) {
-		$crud_actions = ['index', 'new', 'create', 'edit', 'update', 'destroy'];
-		
-		foreach ($crud_actions as $crud_action) {
-			$url = $resource_name . '/' . $crud_action;
-			$controller_action = $resource_name . '#' . $crud_action;
-			self::add($url, $controller_action);
-		}
+		self::add('GET', 	$resource_name . '/index', 		$resource_name . '#index');
+		self::add('GET', 	$resource_name . '/create', 	$resource_name . '#new');
+		self::add('POST', 	$resource_name . '/create', 	$resource_name . '#create');
+		self::add('GET', 	$resource_name . '/update', 	$resource_name . '#edit');
+		self::add('PATCH', 	$resource_name . '/update', 	$resource_name . '#update');
+		self::add('DELETE', $resource_name . '/destroy', 	$resource_name . '#destroy');
 	}
 
-	static function getControllerAction ($url) {
+	static function getControllerAction ($method, $url) {
+		$url = $method.':'.$url;
 		if (isset(self::$data[$url])) {
 			return explode('#', self::$data[$url]);
 		}
@@ -44,6 +49,14 @@
 	static function path ($url, $params = '') {
 		if ($params) $params = '?' . http_build_query($params);
 		echo HOST.'/'.$url.$params;
+	}
+
+	static function param ($paramName) {
+		if(isset($_REQUEST[$paramName])) {
+			return $_REQUEST[$paramName];
+		}
+
+		return '';
 	}
 
 }

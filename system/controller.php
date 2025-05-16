@@ -18,9 +18,14 @@
         self::renderView($className, $methodName);
 	}
 
-	private static function renderView ($className, $methodName) {
+	public static function render ($methodName) {
+		$className = get_called_class();
 		$className = strtolower(str_replace('Controller', '', $className));
         self::$nextView = $className . '/' . $methodName;
+	}
+
+	private static function renderView ($className, $methodName) {
+		if (!self::$nextView) self::render($methodName);
 		require_once DIR.'/app/views/'. self::$layoutView .'.php';
 	}
 
