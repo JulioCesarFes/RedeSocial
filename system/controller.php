@@ -25,7 +25,7 @@
 	}
 
 	public static function yield () {
-		extract(self::$variables);
+		extract(self::$variables ?? []);
 		require_once DIR.'/app/views/'.self::$nextView.'.php';
 	}
 }

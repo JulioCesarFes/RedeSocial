@@ -1,4 +1,3 @@
 <?php
 
-Routes::add('root', 'pages#index');
-Routes::resources('users');
+Routes::add('root', 'welcome#signup');

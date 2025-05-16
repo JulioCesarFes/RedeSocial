@@ -41,4 +41,9 @@
 		}
 	}
 
+	static function path ($url, $params = '') {
+		if ($params) $params = '?' . http_build_query($params);
+		echo HOST.'/'.$url.$params;
+	}
+
 }
