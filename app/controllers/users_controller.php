@@ -1,12 +1,15 @@
-<?php class UsersController {
+<?php class UsersController extends ApplicationController {
 
 	static function index () {}
 	
 	static function new () {}
+
 	static function create () {}
 	
 	static function edit () {}
+
 	static function update () {}
 	
 	static function destroy () {}
+
 }

@@ -5,7 +5,7 @@
 	static function add ($url, $controller_action) {
 		list($controller_name, $action_name) = explode('#', $controller_action);
 		$controller_name = ucfirst($controller_name) . "Controller";
-		$controller_action = implode('#', [$controller_name, $action_name]);
+		$controller_action = implode('#_', [$controller_name, $action_name]);
 
 		self::verifyDuplicates($url, $controller_action);
 		self::$data[$url] = $controller_action;

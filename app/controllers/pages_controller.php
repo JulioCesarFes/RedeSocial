@@ -1,4 +1,5 @@
-<?php class PagesController {
+<?php class PagesController extends ApplicationController {
 
 	static function index () {}
+
 }
